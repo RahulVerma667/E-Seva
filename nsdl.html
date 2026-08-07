@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NSDL PAN Card Photo & Signature Resizer</title>
+  
+  <!-- Cropper.js CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"/>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      margin-top: 5px;
+    }
+
+    .container {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 25px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Mode Selection Tabs */
+    .tabs {
+      display: flex;
+      background: #0f172a;
+      padding: 5px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(90deg, #2563eb, #3b82f6);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    /* Info Badge */
+    .info-badge {
+      background: rgba(56, 189, 248, 0.1);
+      border-left: 4px solid #38bdf8;
+      padding: 10px 15px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      margin-bottom: 20px;
+    }
+
+    /* Upload Box */
+    .upload-box {
+      border: 2px dashed #475569;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+      background: rgba(15, 23, 42, 0.4);
+    }
+
+    .upload-box:hover {
+      border-color: #38bdf8;
+    }
+
+    .upload-box input {
+      display: none;
+    }
+
+    .upload-box span {
+      display: block;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      margin-top: 8px;
+    }
+
+    /* Crop Wrapper */
+    .crop-wrapper {
+      margin-top: 20px;
+      display: none;
+    }
+
+    .img-container {
+      max-height: 350px;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #000;
+    }
+
+    .img-container img {
+      max-width: 100%;
+    }
+
+    /* Actions & Buttons */
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-download {
+      background: linear-gradient(90deg, #10b981, #059669);
+      color: white;
+    }
+
+    .btn-download:hover {
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-reset {
+      background: #334155;
+      color: #cbd5e1;
+    }
+
+    .btn-reset:hover {
+      background: #475569;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>NSDL PAN Card Crop Tool</h1>
+    <p>Photo aur Signature ko NSDL ke exact size & DPI me crop karein</p>
+  </header>
+
+  <div class="container">
+    <!-- Mode Selection -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="setMode('photo')">Photo Mode</button>
+      <button class="tab-btn" onclick="setMode('signature')">Signature Mode</button>
+    </div>
+
+    <!-- Requirements Info -->
+    <div class="info-badge" id="infoText">
+      <strong>Photo Requirements:</strong> 2.5 x 3.5 cm | 200 DPI (197x276 px)
+    </div>
+
+    <!-- Upload Input Area -->
+    <div class="upload-box" onclick="document.getElementById('imageInput').click()">
+      📂 <strong>Image Upload Karein</strong>
+      <span>JPG ya PNG file select karein</span>
+      <input type="file" id="imageInput" accept="image/*">
+    </div>
+
+    <!-- Cropping Canvas Container -->
+    <div class="crop-wrapper" id="cropWrapper">
+      <div class="img-container">
+        <img id="imageToCrop" src="" alt="Selected Image">
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-reset" onclick="resetCrop()">Reset</button>
+        <button class="btn btn-download" onclick="downloadImage()">Crop & Download</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cropper.js JavaScript CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+  <script>
+    let cropper = null;
+    let currentMode = 'photo'; // 'photo' or 'signature'
+
+    // Mode dimensions at 200 DPI
+    const specs = {
+      photo: {
+        width: 197,  // 2.5 cm at 200 DPI
+        height: 276, // 3.5 cm at 200 DPI
+        aspectRatio: 2.5 / 3.5,
+        info: "<strong>Photo Requirements:</strong> 2.5 x 3.5 cm | 200 DPI (197x276 px)"
+      },
+      signature: {
+        width: 354,  // 4.5 cm at 200 DPI
+        height: 157, // 2.0 cm at 200 DPI
+        aspectRatio: 4.5 / 2.0,
+        info: "<strong>Signature Requirements:</strong> 4.5 x 2.0 cm | 200 DPI (354x157 px)"
+      }
+    };
+
+    const imageInput = document.getElementById('imageInput');
+    const imageToCrop = document.getElementById('imageToCrop');
+    const cropWrapper = document.getElementById('cropWrapper');
+    const infoText = document.getElementById('infoText');
+
+    // Switch between Photo and Signature modes
+    function setMode(mode) {
+      currentMode = mode;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      infoText.innerHTML = specs[mode].info;
+
+      if (cropper) {
+        cropper.setAspectRatio(specs[mode].aspectRatio);
+      }
+    }
+
+    // Handle Image Upload
+    imageInput.addEventListener('change', function (e) {
+      const files = e.target.files;
+      if (files && files.length > 0) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          imageToCrop.src = e.target.result;
+          cropWrapper.style.display = 'block';
+
+          if (cropper) {
+            cropper.destroy();
+          }
+
+          // Initialize Cropper with exact Aspect Ratio
+          cropper = new Cropper(imageToCrop, {
+            aspectRatio: specs[currentMode].aspectRatio,
+            viewMode: 1,
+            autoCropArea: 1,
+          });
+        };
+        reader.readAsDataURL(files[0]);
+      }
+    });
+
+    // Reset Cropper
+    function resetCrop() {
+      if (cropper) {
+        cropper.reset();
+      }
+    }
+
+    // Crop Image and Download with exact 200 DPI Dimensions
+    function downloadImage() {
+      if (!cropper) return;
+
+      const targetSpec = specs[currentMode];
+
+      // Export canvas with exact required pixel dimensions
+      const canvas = cropper.getCroppedCanvas({
+        width: targetSpec.width,
+        height: targetSpec.height,
+        imageSmoothingEnabled: true,
+        imageSmoothingQuality: 'high',
+      });
+
+      // Create download link
+      const link = document.createElement('a');
+      link.download = `NSDL_${currentMode.toUpperCase()}_200DPI.jpg`;
+      link.href = canvas.toDataURL('image/jpeg', 0.92);
+      link.click();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+:root {
+            --primary: #1e3c72;
+            --secondary: #2a5298;
+            --accent: #ff6b6b;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(30,60,114,0.9), rgba(42,82,152,0.9)), url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 5rem 1rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Glassmorphism Quick Links Section */
+        .quick-status {
+            max-width: 800px;
+            margin: -40px auto 3rem;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .status-btn {
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s, background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-btn:hover {
+            transform: translateY(-3px);
+            background: var(--accent);
+        }
+
+        /* Services Grid */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2.5rem;
+            color: var(--primary);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            display: block;
+            margin: 8px auto 0;
+            border-radius: 2px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-bottom: 4px solid transparent;
+            
+        }
+        .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(99, 102, 241, 0.2);
+      border: 1px solid var(--primary);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin-top: 15px;
+    }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            border-bottom: 4px solid var(--accent);
+        }
+
+        .service-card i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .service-card p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-card {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-card:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            
+        }
+        /* WhatsApp 3D Button Style */
+.whatsapp-3d-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background-color: #25D366;
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 35px;
+  line-height: 60px;
+  text-decoration: none;
+  z-index: 1000;
+  
+  /* 3D Depth Base Effect */
+  box-shadow: 0 8px 0 #128C7E, 0 15px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease-in-out;
+  transform: translateY(0);
+}
+
+/* Hover Effect (Button niche dabne jaisa 3D effect dega) */
+.whatsapp-3d-btn:hover {
+  transform: translateY(4px);
+  box-shadow: 0 4px 0 #128C7E, 0 8px 10px rgba(0, 0, 0, 0.3);
+  background-color: #20ba5a;
+}
+
+/* Click / Active Effect */
+.whatsapp-3d-btn:active {
+  transform: translateY(8px);
+  box-shadow: 0 0 0 #128C7E, 0 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Icon Centering Alignment */
+.whatsapp-3d-btn i {
+  vertical-align: middle;
+}
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 1rem; }
+            nav a { margin: 0 10px; }
+            .hero h1 { font-size: 1.8rem; }
+        }
